@@ -29,7 +29,6 @@ const percent = computed(() =>
     <progress
       class="operation_track"
       :class="{ 'operation_track--unknown': percent === null }"
-      role="progressbar"
       :aria-label="label"
       aria-valuemin="0"
       aria-valuemax="100"
