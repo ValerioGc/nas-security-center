@@ -6,7 +6,7 @@ it('shows how far an operation is, rounded and kept within the bar', async () =>
   const wrapper = mount(OperationProgress, {
     props: { label: 'Progress', phase: 'Scanning…', progress: 41.6, detail: 'Files: 12' },
   });
-  const bar = wrapper.get('[role="progressbar"]');
+  const bar = wrapper.get('progress');
   expect(bar.attributes('aria-label')).toBe('Progress');
   expect(bar.attributes('aria-valuenow')).toBe('42');
   expect(wrapper.get('.operation_percent').text()).toBe('42%');
@@ -20,7 +20,7 @@ it('runs a stripe along the track when it cannot tell how far it is', () => {
   const wrapper = mount(OperationProgress, {
     props: { label: 'Progress', phase: 'Installing…', progress: null },
   });
-  expect(wrapper.get('[role="progressbar"]').attributes('aria-valuenow')).toBeUndefined();
+  expect(wrapper.get('progress').attributes('aria-valuenow')).toBeUndefined();
   expect(wrapper.find('.operation_track--unknown').exists()).toBe(true);
   expect(wrapper.find('.operation_percent').exists()).toBe(false);
   expect(wrapper.find('.operation_detail').exists()).toBe(false);

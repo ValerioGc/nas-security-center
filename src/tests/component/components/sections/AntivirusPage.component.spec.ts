@@ -74,7 +74,7 @@ it('shows a placeholder while it reads the state of the antivirus', async () => 
 it('shows actual install progress and locks actions while work is running', async () => {
   state.operation = { phase: 'installing', progress: 35, error: null };
   const wrapper = await page();
-  expect(wrapper.get('[role="progressbar"]').attributes('aria-valuenow')).toBe('35');
+  expect(wrapper.get('progress').attributes('aria-valuenow')).toBe('35');
   expect(wrapper.get('.operation_percent').text()).toBe('35%');
   expect(
     wrapper.get('[data-testid="antivirus_open_settings"]').attributes('disabled'),
@@ -82,7 +82,7 @@ it('shows actual install progress and locks actions while work is running', asyn
   state.operation.progress = null;
   await vi.advanceTimersByTimeAsync(2000);
   await flushPromises();
-  expect(wrapper.get('[role="progressbar"]').attributes('aria-valuenow')).toBeUndefined();
+  expect(wrapper.get('progress').attributes('aria-valuenow')).toBeUndefined();
   expect(wrapper.find('.operation_track--unknown').exists()).toBe(true);
 });
 
