@@ -3,7 +3,7 @@
   "app": {
     "id": "nas-security-center",
     "name": "Centro sicurezza",
-    "version": "0.1.14",
+    "version": "0.1.15",
     "icon": "icon.svg",
     "category": "system",
     "system": true
