@@ -39,7 +39,7 @@ function ask(enabled: boolean) {
   if (enabled && !props.state.current) {
     return;
   }
-  
+
   asking.value = enabled !== props.state.enabled;
 }
 

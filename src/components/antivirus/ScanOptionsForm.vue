@@ -34,13 +34,12 @@ const exclusions = computed({
 
 <template>
   <div class="page_panel">
-    
     <!-- Archives option -->
     <NasSwitch v-model="options.archives" :label="t.antivirus.archives" />
-    
+
     <!-- Detect PUA option -->
     <NasSwitch v-model="options.detectPua" :label="t.antivirus.detectPua" />
-    
+
     <div class="field">
       <label :for="maxFileId">{{ t.antivirus.maxFileMb }}</label>
       <NasNumberStepper

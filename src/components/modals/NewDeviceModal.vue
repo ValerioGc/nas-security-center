@@ -30,7 +30,7 @@ async function submit() {
   if (!ready.value) {
     return;
   }
-  
+
   busy.value = true;
   error.value = '';
   try {

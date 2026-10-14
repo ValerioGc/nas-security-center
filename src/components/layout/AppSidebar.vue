@@ -25,7 +25,7 @@ const { t } = useI18n();
         v-for="item in SECTIONS"
         :key="item"
         type="button"
-        :class="['nav_item', { 'active': section === item }]"
+        :class="['nav_item', { active: section === item }]"
         :aria-current="section === item ? 'page' : undefined"
         :data-testid="`section_${item}`"
         @click="section = item"

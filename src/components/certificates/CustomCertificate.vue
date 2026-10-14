@@ -63,7 +63,7 @@ async function upload() {
         />
       </label>
     </div>
-    
+
     <div class="app_toolbar">
       <button
         type="button"

@@ -22,7 +22,7 @@ const open = defineModel<boolean>({ required: true });
 
 const draft = ref<AntivirusSettings>(structuredClone(toRaw(props.settings)));
 
-  const tabs = computed(() =>
+const tabs = computed(() =>
   props.settings.enabled
     ? (['general', 'scheduler', 'scans', 'quarantine'] as const)
     : (['general'] as const),
@@ -139,7 +139,7 @@ function keyboard(event: KeyboardEvent) {
               {{ settings.enabled ? t.antivirus.enabledNote : t.antivirus.disabledNote }}
             </p>
           </div>
-          
+
           <button
             v-if="!settings.enabled"
             type="button"
@@ -186,9 +186,9 @@ function keyboard(event: KeyboardEvent) {
             :label="t.antivirus.schedulerEnabled"
             testid="antivirus_scheduler"
           />
-          
+
           <p class="muted">{{ t.antivirus.scheduleNote }}</p>
-          
+
           <p v-if="power.state.value === 'loading'">
             <output>{{ t.antivirus.powerLoading }}</output>
           </p>
@@ -196,7 +196,7 @@ function keyboard(event: KeyboardEvent) {
           <p v-else-if="power.state.value === 'unavailable'" role="alert">
             {{ t.antivirus.powerUnavailable }}
           </p>
-          
+
           <fieldset v-for="phase in lifecycleScans" :key="phase" class="page_panel surface_card">
             <NasSwitch
               v-model="draft[phase].enabled"
@@ -233,7 +233,7 @@ function keyboard(event: KeyboardEvent) {
           </fieldset>
 
           <p class="muted">{{ t.antivirus.lifecycleNote }}</p>
-          
+
           <fieldset
             v-for="(job, index) in draft.schedules"
             :key="job.id"
@@ -258,9 +258,8 @@ function keyboard(event: KeyboardEvent) {
               </select></label
             >
             <label class="field"
-              >{{ t.antivirus.time }}<input v-model="job.time" type="time" required
-            />
-          </label>
+              >{{ t.antivirus.time }}<input v-model="job.time" type="time" required />
+            </label>
             <label v-if="job.kind === 'file' || job.kind === 'custom'" class="field">
               {{ t.antivirus.paths }}
               <textarea
@@ -280,7 +279,7 @@ function keyboard(event: KeyboardEvent) {
             <p v-if="draft.schedulerEnabled && power.conflict(job)" role="alert">
               {{ power.conflict(job) === 'off' ? t.antivirus.powerOff : t.antivirus.powerSoon }}
             </p>
-            
+
             <button
               type="button"
               class="action_button danger"
@@ -334,7 +333,7 @@ function keyboard(event: KeyboardEvent) {
         </div>
       </div>
     </form>
-    
+
     <template #footer>
       <button type="button" class="action_button" @click="open = false">{{ t.cancel }}</button>
       <button
