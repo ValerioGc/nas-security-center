@@ -1,0 +1,22 @@
+import { mount } from '@vue/test-utils';
+import { expect, it } from 'vitest';
+import ScanOptionsForm from '@/components/antivirus/ScanOptionsForm.vue';
+import { scanOptions } from '@/tests/fixtures/antivirus';
+it('edits default paths and literal exclusions per scan type', async () => {
+  const options = scanOptions();
+  const wrapper = mount(ScanOptionsForm, { props: { kind: 'quick', modelValue: options } });
+  await wrapper.findAll('textarea')[0]?.setValue('/tmp/a\n\n /home ');
+  await wrapper.findAll('textarea')[1]?.setValue('/tmp/skip\n');
+  expect(options.paths).toEqual(['/tmp/a', '/home']);
+  expect(options.exclusions).toEqual(['/tmp/skip']);
+  await wrapper.findAll('input[type="checkbox"]')[0]?.setValue(false);
+  await wrapper.findAll('input[type="checkbox"]')[1]?.setValue(true);
+  await wrapper.get('input[type="number"]').setValue('250');
+  await wrapper.get('input[type="number"]').trigger('change');
+  expect(options.archives).toBe(false);
+  expect(options.detectPua).toBe(true);
+  expect(options.maxFileMb).toBe(250);
+  await wrapper.setProps({ kind: 'full' });
+  expect(wrapper.findAll('textarea')).toHaveLength(1);
+  wrapper.unmount();
+});

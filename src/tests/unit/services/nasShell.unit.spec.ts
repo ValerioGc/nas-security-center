@@ -1,0 +1,147 @@
+import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
+import { isReactive, reactive } from 'vue';
+import { askNasShell, pickAntivirusPath } from '@/services/nasShell';
+
+let parent: { postMessage: ReturnType<typeof vi.fn> };
+let originalParent: PropertyDescriptor | undefined;
+
+function arrive(data: unknown, origin = window.location.origin, source: unknown = parent) {
+  const event = new MessageEvent('message', { data, origin });
+  Object.defineProperty(event, 'source', { value: source });
+  window.dispatchEvent(event);
+}
+
+/** The id of the last request posted to the shell. */
+function lastRequest() {
+  return (parent.postMessage.mock.calls.at(-1)?.[0] as { requestId: string }).requestId;
+}
+
+beforeEach(() => {
+  originalParent = Object.getOwnPropertyDescriptor(window, 'parent');
+  parent = { postMessage: vi.fn() };
+  Object.defineProperty(window, 'parent', { configurable: true, value: parent });
+});
+
+afterEach(() => {
+  vi.useRealTimers();
+  if (originalParent) {
+    Object.defineProperty(window, 'parent', originalParent);
+  }
+});
+
+describe('the conversation with the shell', () => {
+  it('asks with a request id and resolves with what the shell answers', async () => {
+    const asked = askNasShell<{ notifyFailures: boolean }>('save-access-settings', {
+      notifyFailures: true,
+    });
+    const sent = parent.postMessage.mock.calls[0]?.[0];
+    expect(sent).toMatchObject({
+      nas: 1,
+      type: 'save-access-settings',
+      payload: { notifyFailures: true },
+    });
+
+    arrive({
+      nas: 1,
+      type: 'save-access-settings-result',
+      requestId: lastRequest(),
+      success: true,
+      data: { notifyFailures: true },
+    });
+
+    await expect(asked).resolves.toEqual({ notifyFailures: true });
+  });
+
+  it('sends a reactive object of the page as plain data, which postMessage can copy', () => {
+    const settings = reactive({ notifyFailures: true });
+    void askNasShell('save-access-settings', settings).catch(() => undefined);
+
+    const sent = parent.postMessage.mock.calls.at(-1)?.[0] as { payload: unknown };
+    expect(isReactive(sent.payload)).toBe(false);
+    expect(sent.payload).toEqual({ notifyFailures: true });
+    expect(() => structuredClone(sent.payload)).not.toThrow();
+  });
+
+  it('rejects with the reason of a refusal, or a generic one', async () => {
+    const refused = askNasShell('add-access-rule', { kind: 'ip', value: 'x', label: '' });
+    arrive({
+      nas: 1,
+      type: 'add-access-rule-result',
+      requestId: lastRequest(),
+      success: false,
+      error: 'invalid IP address',
+    });
+    await expect(refused).rejects.toThrow('invalid IP address');
+
+    const silent = askNasShell('access-rules');
+    arrive({ nas: 1, type: 'access-rules-result', requestId: lastRequest(), success: false });
+    await expect(silent).rejects.toThrow('Launcher unavailable');
+  });
+
+  it('takes no answer from another window, another origin or another protocol', async () => {
+    vi.useFakeTimers();
+    const asked = askNasShell('access-rules');
+    const requestId = lastRequest();
+    const answer = { type: 'access-rules-result', requestId, success: true, data: ['forged'] };
+
+    arrive({ nas: 1, ...answer }, 'https://evil.example');
+    arrive({ nas: 1, ...answer }, location.origin, { postMessage: vi.fn() });
+    arrive({ nas: 2, ...answer });
+    arrive(null);
+    vi.advanceTimersByTime(10_000);
+
+    await expect(asked).rejects.toThrow('Launcher unavailable');
+  });
+
+  it('cannot ask outside the launcher', async () => {
+    Object.defineProperty(window, 'parent', { configurable: true, value: window });
+
+    await expect(askNasShell('access-settings')).rejects.toThrow('Launcher unavailable');
+  });
+});
+
+it('selects a NAS path through the existing file and folder picker', async () => {
+  const picked = pickAntivirusPath();
+  expect(parent.postMessage.mock.calls.at(-1)?.[0]).toMatchObject({
+    type: 'pick-files',
+    folder: false,
+    multiple: false,
+  });
+  arrive({
+    nas: 1,
+    type: 'pick-files-result',
+    requestId: lastRequest(),
+    files: [{ name: 'a', path: '/Documents/a' }],
+    cancelled: false,
+  });
+  await expect(picked).resolves.toBe('/srv/storage/Documents/a');
+  const cancelled = pickAntivirusPath(true);
+  arrive({
+    nas: 1,
+    type: 'pick-files-result',
+    requestId: lastRequest(),
+    files: [],
+    cancelled: true,
+  });
+  await expect(cancelled).resolves.toBeNull();
+});
+it('rejects picker errors and invalid returned paths', async () => {
+  for (const result of [
+    { files: [], cancelled: false, error: 'provider unavailable' },
+    { files: [{ name: 'etc', path: '/../etc' }], cancelled: false },
+    { files: [{ name: 'relative', path: 'relative' }], cancelled: false },
+  ]) {
+    const picked = pickAntivirusPath();
+    arrive({ nas: 1, type: 'pick-files-result', requestId: lastRequest(), ...result });
+    await expect(picked).rejects.toThrow();
+  }
+  const empty = pickAntivirusPath();
+  arrive({
+    nas: 1,
+    type: 'pick-files-result',
+    requestId: lastRequest(),
+    files: [],
+    cancelled: false,
+  });
+  await expect(empty).resolves.toBeNull();
+});

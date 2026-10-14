@@ -1,0 +1,22 @@
+{
+  "manifest_version": 1,
+  "app": {
+    "id": "nas-security-center",
+    "name": "Centro sicurezza",
+    "version": "0.1.13",
+    "icon": "icon.svg",
+    "category": "system",
+    "system": true
+  },
+  "run": {
+    "exec": "bin/nas-security-center-axum",
+    "socket": "/run/nas-os/apps/nas-security-center.sock"
+  },
+  "ui": {
+    "protocol": 1
+  },
+  "provides": [],
+  "permissions": {
+    "paths": []
+  }
+}

@@ -1,0 +1,165 @@
+# Changelog
+
+All notable changes to nas-security-center are documented in this file.
+
+## [Unreleased]
+
+### Changed
+
+- The texts of the interface, in Italian and English, are impersonal and shorter: no ellipsis,
+  colon or semicolon, no names of internal programs, commands or variables.
+- The scrollbars come from the shared library, which shows only their thumb: no arrows and no
+  track.
+- The retry of an error banner sits on its right, whatever the length of the reason.
+- Certificates. The state of the connection is a banner with its tone and sign: information when
+  HTTPS is off, a warning on HTTP or on an address the certificate does not cover, a success when
+  it covers it. The download of the authority is the main action, without underline.
+- Certificates. The guide to trust the authority has a tab for each system, with its browsers and
+  numbered steps, rewritten.
+- Headings, fields, page header, panels and hidden labels come from `_nas-controls.scss` of the
+  shared library instead of a copy of the same rules; `.surface_card` from `_nas-apps.scss`.
+
+### Fixed
+
+- Certificates. "Apri in HTTPS" did nothing: the frame guard of the application cancels a link to
+  the page that holds it. The button now asks the launcher (`openHttps`, message `open-https`) to
+  load itself again over HTTPS.
+
+### Removed
+
+- The `serde` dependency of the backend, unused: only `serde_json` is.
+
+## [0.1.13]
+
+### Changed
+
+- Maintenance release.
+
+## [0.1.12]
+
+### Added
+
+- The switch of the discovery by NAS Finder in the access section (requests `discovery-settings`
+  and `save-discovery-settings` of the launcher): the wizard turns it off when it is done, and it
+  stays off until the system is reset unless it is turned on here. A refused change puts the
+  switch back and says why.
+- The page opens on the section the launcher asks for (`?section=access`, from the link of a
+  notification); an unknown one opens the access, as before.
+- The kinds of scan are selectable cards, one chosen at a time, started by their button.
+- Placeholders while the state is read, for an empty quarantine, a clean scan and an antivirus
+  that is off; a progress bar with stripes, its percentage beside it, and a running stripe when
+  the progress is unknown.
+- A custom scan can ignore the files unchanged since the last scan (off by default); the quick
+  scan always does, and the page says so. The result shows how many files were skipped, the
+  progress how many of the planned ones were checked, and the Scans tab of the settings forgets
+  the files already scanned.
+
+### Changed
+
+- The files of `assets/`, with a hash of their content in the name, are served with
+  `Cache-Control: public, max-age=31536000, immutable`, the page with `no-cache`: the browser keeps
+  the scripts and the styles between visits instead of asking for them again through the gateway
+  and the launcher.
+- The settings icon is larger and on the other side of the title. The settings have four tabs:
+  General (turning the antivirus on, or off after a confirmation: no more on the page), Schedule,
+  Scans (one card for each kind) and Quarantine; while it is off only General.
+- The launcher bridge (under `askNasShell`), the shared styles, icons, switches, number steppers,
+  the native dialog under `CommonModal`, the power schedule ranges and the build, package and
+  release scripts come from the shared library `@valeriogc/nas-base-app`. A number typed out of its
+  range now shows again the value kept, which never changed.
+
+## [0.1.11]
+
+### Changed
+
+- In the frame of the launcher the application keeps the rules of its old sandbox by itself
+  (`src/services/frameGuard.ts`, called first in `main.ts`): no window of its own, no
+  `alert`/`confirm`/`prompt` dialog, no navigation of the page that holds it. The launcher dropped
+  the sandbox, which on its origin was no wall and made the browser warn: nothing else changes.
+- Antivirus comes right after Devices in the side menu.
+- The errors show their whole reason, wrapped and scrolling when long, beside their retry; the
+  Antivirus page keeps its button as wide as its text (primary to enable, red to disable) and
+  sets its progress apart.
+- The text on the accent follows the theme (`--on-accent`), readable on the bright accent of the
+  dark theme.
+
+## [0.1.10]
+
+### Changed
+
+- Maintenance release.
+
+## [0.1.9]
+
+### Changed
+
+- Maintenance release.
+
+## [0.1.8]
+
+### Changed
+
+- Maintenance release.
+
+## [0.1.7]
+
+### Changed
+
+- Maintenance release.
+
+## [0.1.6]
+
+### Changed
+
+- Maintenance release.
+
+## [0.1.5]
+
+### Changed
+
+- Maintenance release.
+
+## [0.1.4]
+
+### Changed
+
+- Maintenance release.
+
+## [0.1.3]
+
+### Added
+
+- The real devices section: access with a certificate only (mTLS), turned on and off with the
+  account password, and the devices allowed in, each with a name, an icon and its certificate.
+- A new device gets its own certificate, downloaded with the password of its file and the authority
+  of the NAS; a device is renamed, its certificate renewed or revoked, and it can be removed.
+
+### Removed
+
+- The sample devices.
+
+### Changed
+
+- The surfaces follow the theme chosen in the launcher for its type, through the colours of the
+  context; outside the launcher the application keeps its own.
+
+## [0.1.2]
+
+### Changed
+
+- Maintenance release.
+
+## [0.1.1]
+
+### Changed
+
+- Maintenance release.
+
+## [0.1.0]
+
+### Added
+
+- The access of the NAS, moved here from the settings of the launcher: notification of refused
+  sign-ins, lock after failed attempts and allowed addresses, read and saved through the shell.
+- The security log, with the refused sign-ins the launcher records.
+- The devices section, with sample data until the launcher keeps a list of them.

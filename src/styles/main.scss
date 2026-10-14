@@ -1,0 +1,152 @@
+@use '@valeriogc/nas-base-app/styles/_nas-theme.scss';
+@use '@valeriogc/nas-base-app/styles/partials/_reset.scss';
+@use '@valeriogc/nas-base-app/styles/_nas-apps.scss';
+@use '@valeriogc/nas-base-app/styles/_nas-buttons.scss';
+@use '@valeriogc/nas-base-app/styles/_nas-controls.scss';
+@use '@valeriogc/nas-base-app/styles/_nas-switch.scss';
+@use '@valeriogc/nas-base-app/styles/_nas-number-stepper.scss';
+@use '@valeriogc/nas-base-app/styles/_nas-modal.scss';
+@use '@valeriogc/nas-base-app/styles/_nas-scrollbar.scss';
+@use './partials/theme';
+
+// The controls every section shares.
+.action_button {
+  --app-icon-size: 16px;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 9px 14px;
+  border: 1px solid var(--nas-border);
+  border-radius: 9px;
+  background: var(--nas-surface);
+  color: var(--nas-foreground);
+  font-weight: 650;
+  // Also on a link that downloads a file.
+  text-decoration: none;
+
+  &:hover:not(:disabled) {
+    background: var(--nas-hover);
+  }
+
+  &.primary {
+    border-color: var(--accent);
+    background: var(--accent);
+    color: var(--on-accent);
+  }
+
+  &.danger {
+    color: var(--nas-error);
+  }
+}
+
+// The mark of the device this page is open on.
+.device_current {
+  padding: 2px 8px;
+  border-radius: 6px;
+  background: var(--accent-soft);
+  color: var(--accent);
+  font-size: 12px;
+  white-space: nowrap;
+}
+
+// Where a device stands with its certificate, in the list and in the details.
+.device_state {
+  padding: 2px 8px;
+  border-radius: 6px;
+  background: var(--status-off-bg);
+  color: var(--status-off-color);
+  font-size: 12px;
+  white-space: nowrap;
+
+  &.active {
+    background: var(--status-bg);
+    color: var(--status-color);
+  }
+
+  &.pending {
+    background: color-mix(in srgb, var(--tone-warning) 15%, var(--nas-surface));
+    color: var(--tone-warning);
+  }
+
+  &.revoked,
+  &.expired {
+    background: color-mix(in srgb, var(--nas-error) 12%, var(--nas-surface));
+    color: var(--nas-error);
+  }
+}
+
+.icon_button {
+  --app-icon-size: 18px;
+  display: inline-grid;
+  place-items: center;
+  min-width: 32px;
+  min-height: 32px;
+  padding: 4px;
+  border: 0;
+  background: transparent;
+  color: var(--nas-muted);
+
+  &:hover:not(:disabled) {
+    color: var(--nas-foreground);
+  }
+}
+
+// Denser than the shared one, and without its own margin.
+.muted {
+  margin: 0;
+  font-size: 13px;
+}
+
+.alert {
+  --alert-tone: var(--nas-error);
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px;
+  margin: 0;
+  padding: 14px 18px;
+  border: 1px solid color-mix(in srgb, var(--alert-tone) 35%, var(--nas-border));
+  border-radius: 9px;
+  color: var(--alert-tone);
+  background: color-mix(in srgb, var(--alert-tone) 8%, var(--nas-panel));
+
+  // The sign of the tone, before the message.
+  > .app_icon {
+    --app-icon-size: 18px;
+    color: var(--alert-tone);
+  }
+}
+
+// An alert that is no error: the tone marks its edge and its sign, the text stays readable.
+.alert_warning,
+.alert_info,
+.alert_success {
+  color: var(--nas-foreground);
+}
+
+.alert_warning {
+  --alert-tone: var(--tone-warning);
+}
+
+.alert_info {
+  --alert-tone: var(--tone-info);
+}
+
+.alert_success {
+  --alert-tone: var(--tone-success);
+}
+
+// The action of an alert, on its right whatever the length of the reason.
+.alert > .action_button {
+  margin-left: auto;
+}
+
+// A reason written by the system: kept as it came, the long ones scroll.
+.alert_message {
+  flex: 1 1 280px;
+  min-width: 0;
+  max-height: 9em;
+  overflow: auto;
+  overflow-wrap: anywhere;
+  white-space: pre-wrap;
+}
