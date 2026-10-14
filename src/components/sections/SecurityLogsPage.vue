@@ -16,15 +16,10 @@ const error = ref('');
 
 const newestFirst = computed(() => [...refused.value].sort((one, other) => other.at - one.at));
 
-/** The field the launcher names, in the language of the page; an unknown one as it came. */
 function field(name: string) {
   return name === 'username' || name === 'password' ? t.value.fields[name] : name || '-';
 }
 
-/**
- * The refused sign-ins the launcher noted, and whether it is noting them at all: they are
- * recorded only while the notification for them is on.
- */
 async function load() {
   loading.value = true;
   error.value = '';

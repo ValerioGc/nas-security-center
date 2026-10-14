@@ -26,7 +26,6 @@ watch(
   },
 );
 
-// The device of the details, read from the list: what the modal changes shows at once in both.
 const chosen = computed(() => devices.value.find((device) => device.id === chosenId.value) ?? null);
 
 const detailsOpen = computed({

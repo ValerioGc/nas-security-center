@@ -2,14 +2,9 @@
 
 import { NasIcon } from '@valeriogc/nas-base-app';
 
-/**
- * What a part of a page shows when it has nothing yet: a symbol (or a spinner while it reads), a
- * title, a line that says what goes there, and the actions in the default slot.
- */
 defineProps<{
   title: string;
   text?: string;
-  /** The symbol, an SVG imported by the page. */
   svg?: string;
   loading?: boolean;
   testid?: string;
@@ -30,8 +25,10 @@ defineProps<{
     </span>
     <strong class="empty_title">{{ title }}</strong>
     <p v-if="text" class="empty_text">{{ text }}</p>
+
+    <!-- Actions slot -->
     <div v-if="$slots.default" class="empty_actions">
-      <slot />
+      <slot></slot>
     </div>
   </div>
 </template>

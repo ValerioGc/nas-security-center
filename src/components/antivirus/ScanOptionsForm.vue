@@ -5,10 +5,11 @@ import { useI18n } from '@/i18n';
 import type { ScanKind, ScanOptions } from '@/types';
 import { NasNumberStepper, NasSwitch } from '@valeriogc/nas-base-app';
 
+const { t } = useI18n();
 const props = defineProps<{ kind: ScanKind }>();
 const options = defineModel<ScanOptions>({ required: true });
-const { t } = useI18n();
 const maxFileId = computed(() => `antivirus_${props.kind}_max_file`);
+
 const paths = computed({
   get: () => options.value.paths.join('\n'),
   set: (value: string) => {
@@ -18,6 +19,7 @@ const paths = computed({
       .filter(Boolean);
   },
 });
+
 const exclusions = computed({
   get: () => options.value.exclusions.join('\n'),
   set: (value: string) => {
@@ -32,8 +34,13 @@ const exclusions = computed({
 
 <template>
   <div class="page_panel">
+    
+    <!-- Archives option -->
     <NasSwitch v-model="options.archives" :label="t.antivirus.archives" />
+    
+    <!-- Detect PUA option -->
     <NasSwitch v-model="options.detectPua" :label="t.antivirus.detectPua" />
+    
     <div class="field">
       <label :for="maxFileId">{{ t.antivirus.maxFileMb }}</label>
       <NasNumberStepper
@@ -46,10 +53,14 @@ const exclusions = computed({
         :decrease-label="t.decrease"
       />
     </div>
+
+    <!-- Default paths option -->
     <label v-if="props.kind === 'quick' || props.kind === 'custom'" class="field">
       {{ t.antivirus.defaultPaths }}
       <textarea v-model="paths" rows="3" :placeholder="t.antivirus.pathsHint"></textarea>
     </label>
+
+    <!-- Exclusions option -->
     <label class="field">
       {{ t.antivirus.exclusions }}
       <textarea v-model="exclusions" rows="3" :placeholder="t.antivirus.pathsHint"></textarea>

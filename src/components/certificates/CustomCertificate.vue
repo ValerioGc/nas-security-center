@@ -9,7 +9,6 @@ const emit = defineEmits<{
   upload: [certificate: string, key: string];
 }>();
 
-// A chain and its key in PEM are a few kilobytes: the gateway refuses more than 64 KiB.
 const LIMIT = 60 * 1024;
 
 const { t } = useI18n();
@@ -36,7 +35,6 @@ async function upload() {
 
 </script>
 
-<!-- A certificate of another authority, with its key, in place of the NAS's own. -->
 <template>
   <section
     class="surface_card page_panel"
@@ -65,6 +63,7 @@ async function upload() {
         />
       </label>
     </div>
+    
     <div class="app_toolbar">
       <button
         type="button"

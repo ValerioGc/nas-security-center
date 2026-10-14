@@ -7,8 +7,10 @@ import { useI18n } from '@/i18n';
 import { useAntivirus } from '@/composables/useAntivirus';
 import type { AntivirusSettings, QuarantineEntry, ScanKind } from '@/types';
 import { NasIcon, NasSwitch } from '@valeriogc/nas-base-app';
+
 import antivirusIcon from '@/assets/icons/antivirus.svg?url';
 import settingsIcon from '@/assets/icons/settings.svg?url';
+
 import CommonModal from '@/components/common/CommonModal.vue';
 import AntivirusSettingsModal from '@/components/antivirus/AntivirusSettingsModal.vue';
 import EmptyState from '@/components/common/EmptyState.vue';
@@ -36,7 +38,7 @@ async function choosePath(folder: boolean) {
 }
 const selected = ref<ScanKind>('quick');
 const paths = ref('');
-// Asked only of a custom scan: the quick one skips the unchanged files always.
+
 const skipUnchanged = ref(false);
 const confirmation = ref<null | { action: 'restore' | 'delete'; entry: QuarantineEntry }>(null);
 const confirmationOpen = ref(false);
@@ -50,7 +52,7 @@ async function forgetScanned() {
     settingsOpen.value = false;
   }
 }
-// Turned on or off from the settings: the page shows the operation as it goes.
+
 async function toggle(enabled: boolean) {
   if (await enable(enabled)) {
     settingsOpen.value = false;

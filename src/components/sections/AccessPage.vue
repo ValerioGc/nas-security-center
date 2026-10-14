@@ -4,6 +4,7 @@ import { onMounted } from 'vue';
 import { useI18n } from '@/i18n';
 import { useAccess } from '@/composables/useAccess';
 import type { AccessRule, NewAccessRule } from '@/types';
+
 import { NasNumberStepper, NasSwitch } from '@valeriogc/nas-base-app';
 import AllowedAddresses from '@/components/access/AllowedAddresses.vue';
 

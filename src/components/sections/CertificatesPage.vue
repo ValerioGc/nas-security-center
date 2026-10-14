@@ -25,7 +25,6 @@ import infoIcon from '@/assets/icons/info.svg?url';
 import successIcon from '@/assets/icons/success.svg?url';
 import warningIcon from '@/assets/icons/warning.svg?url';
 
-/** A change waiting for the password: what the window says, and the request it becomes. */
 interface Pending {
   title: string;
   note: string;
@@ -59,6 +58,7 @@ async function confirm(password: string) {
   if (!change) {
     return;
   }
+
   busy.value = true;
   failure.value = '';
   try {
@@ -122,7 +122,6 @@ onMounted(load);
       >
         <NasIcon :svg="warningIcon" />
         <span class="alert_message">{{ t.plainConnection }}</span>
-        <!-- The launcher navigates itself: the frame guard keeps the application from doing it. -->
         <button
           type="button"
           class="action_button primary"

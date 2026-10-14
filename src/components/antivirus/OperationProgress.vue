@@ -26,7 +26,7 @@ const percent = computed(() =>
       <output class="operation_phase">{{ phase }}</output>
       <strong v-if="percent !== null" class="operation_percent">{{ percent }}%</strong>
     </div>
-    <div
+    <progress
       class="operation_track"
       :class="{ 'operation_track--unknown': percent === null }"
       role="progressbar"
@@ -37,7 +37,7 @@ const percent = computed(() =>
     >
       <span class="operation_fill" :style="percent === null ? undefined : { width: `${percent}%` }">
       </span>
-    </div>
+    </progress>
     <p v-if="detail" class="operation_detail">{{ detail }}</p>
   </div>
 </template>

@@ -4,7 +4,6 @@ import { useId } from 'vue';
 import { useI18n } from '@/i18n';
 import type { ScanKind } from '@/types';
 
-/** The kinds of scan as cards: choosing one leaves the others, as the radio buttons they are. */
 defineProps<{ disabled?: boolean }>();
 const kind = defineModel<ScanKind>({ required: true });
 const { t } = useI18n();

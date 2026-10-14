@@ -14,7 +14,6 @@ const props = defineProps<Props>();
 
 const { t } = useI18n();
 
-// Served by the gateway to every browser: what a device trusts before anything else.
 const AUTHORITY_URL = '/auth/ca.crt';
 
 function saveCertificate() {
@@ -23,7 +22,6 @@ function saveCertificate() {
 
 </script>
 
-<!-- The certificate just issued for a device, with the password of its file: shown once. -->
 <template>
   <div class="credential" data-testid="credential">
     <section class="credential_part">

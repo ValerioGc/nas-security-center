@@ -1,12 +1,15 @@
 <script setup lang="ts">
 
 import { computed, ref, watch, toRaw } from 'vue';
-import { usePowerSchedule } from '@/composables/usePowerSchedule';
 import { useI18n } from '@/i18n';
 import type { AntivirusSettings, ScanKind } from '@/types';
-import CommonModal from '@/components/common/CommonModal.vue';
+
 import { NasSwitch, randomUuid } from '@valeriogc/nas-base-app';
+import { usePowerSchedule } from '@/composables/usePowerSchedule';
+import CommonModal from '@/components/common/CommonModal.vue';
 import ScanOptionsForm from '@/components/antivirus/ScanOptionsForm.vue';
+
+const { t } = useI18n();
 
 const props = defineProps<{ settings: AntivirusSettings; busy: boolean }>();
 const emit = defineEmits<{
@@ -14,18 +17,19 @@ const emit = defineEmits<{
   toggle: [enabled: boolean];
   forget: [];
 }>();
+
 const open = defineModel<boolean>({ required: true });
-const { t } = useI18n();
+
 const draft = ref<AntivirusSettings>(structuredClone(toRaw(props.settings)));
-// Off, the antivirus has nothing else to set: only whether to turn it on.
-const tabs = computed(() =>
+
+  const tabs = computed(() =>
   props.settings.enabled
     ? (['general', 'scheduler', 'scans', 'quarantine'] as const)
     : (['general'] as const),
 );
+
 type Tab = 'general' | 'scheduler' | 'scans' | 'quarantine';
 const tab = ref<Tab>(props.settings.enabled ? 'scheduler' : 'general');
-// Turning it off stops the scans: the button asks once more.
 const confirmingDisable = ref(false);
 const power = usePowerSchedule();
 const invalidSchedules = computed(
@@ -33,6 +37,7 @@ const invalidSchedules = computed(
     draft.value.schedulerEnabled &&
     draft.value.schedules.some((job) => power.conflict(job) === 'off'),
 );
+
 const lifecycleScans = ['bootScan', 'shutdownScan'] as const;
 const kinds: ScanKind[] = ['quick', 'full', 'file', 'custom'];
 const days = [
@@ -45,20 +50,24 @@ const days = [
   { id: 'Sat', key: 'saturday' },
   { id: 'Sun', key: 'sunday' },
 ] as const;
+
 watch(open, (value) => {
   if (value) {
     draft.value = structuredClone(toRaw(props.settings));
     void power.load();
   }
 });
+
 if (open.value) {
   void power.load();
 }
+
 function submit() {
   if (!invalidSchedules.value) {
     emit('save', draft.value);
   }
 }
+
 function addJob() {
   draft.value.schedules.push({
     id: randomUuid(),
@@ -69,13 +78,16 @@ function addJob() {
     paths: [],
   });
 }
+
 function keyboard(event: KeyboardEvent) {
   if (!['ArrowRight', 'ArrowLeft', 'Home', 'End'].includes(event.key)) {
     return;
   }
+
   event.preventDefault();
   const list: readonly Tab[] = tabs.value;
   const index = list.indexOf(tab.value);
+
   let nextIndex: number;
   if (event.key === 'Home') {
     nextIndex = 0;
@@ -85,6 +97,7 @@ function keyboard(event: KeyboardEvent) {
     const direction = event.key === 'ArrowRight' ? 1 : -1;
     nextIndex = (index + direction + list.length) % list.length;
   }
+
   tab.value = list[nextIndex] ?? 'general';
   const target = event.currentTarget as HTMLElement;
   target.querySelector<HTMLButtonElement>(`[data-tab="${tab.value}"]`)?.focus();
@@ -117,6 +130,7 @@ function keyboard(event: KeyboardEvent) {
           {{ t.antivirus.tabs[item] }}
         </button>
       </div>
+
       <div :id="`antivirus_panel_${tab}`" role="tabpanel" :aria-labelledby="`antivirus_tab_${tab}`">
         <div v-if="tab === 'general'" class="page_panel" data-testid="antivirus_general">
           <div class="general_state" :class="{ 'general_state--on': settings.enabled }">
@@ -125,6 +139,7 @@ function keyboard(event: KeyboardEvent) {
               {{ settings.enabled ? t.antivirus.enabledNote : t.antivirus.disabledNote }}
             </p>
           </div>
+          
           <button
             v-if="!settings.enabled"
             type="button"
@@ -135,6 +150,7 @@ function keyboard(event: KeyboardEvent) {
           >
             {{ t.antivirus.enable }}
           </button>
+
           <template v-else-if="!confirmingDisable">
             <button
               type="button"
@@ -146,6 +162,7 @@ function keyboard(event: KeyboardEvent) {
               {{ t.antivirus.disable }}
             </button>
           </template>
+
           <div v-else class="alert general_confirm" role="alert">
             <span class="alert_message">{{ t.antivirus.disableConfirm }}</span>
             <button type="button" class="action_button" @click="confirmingDisable = false">
@@ -162,25 +179,31 @@ function keyboard(event: KeyboardEvent) {
             </button>
           </div>
         </div>
+
         <div v-else-if="tab === 'scheduler'" class="page_panel">
           <NasSwitch
             v-model="draft.schedulerEnabled"
             :label="t.antivirus.schedulerEnabled"
             testid="antivirus_scheduler"
           />
+          
           <p class="muted">{{ t.antivirus.scheduleNote }}</p>
+          
           <p v-if="power.state.value === 'loading'">
             <output>{{ t.antivirus.powerLoading }}</output>
           </p>
+
           <p v-else-if="power.state.value === 'unavailable'" role="alert">
             {{ t.antivirus.powerUnavailable }}
           </p>
+          
           <fieldset v-for="phase in lifecycleScans" :key="phase" class="page_panel surface_card">
             <NasSwitch
               v-model="draft[phase].enabled"
               :label="t.antivirus[phase]"
               :testid="`antivirus_${phase}`"
             />
+
             <label v-if="draft[phase].enabled" class="field">
               {{ t.antivirus.scanType }}
               <select v-model="draft[phase].kind" :data-testid="`antivirus_${phase}_kind`">
@@ -189,6 +212,7 @@ function keyboard(event: KeyboardEvent) {
                 </option>
               </select>
             </label>
+
             <label
               v-if="draft[phase].enabled && ['file', 'custom'].includes(draft[phase].kind)"
               class="field"
@@ -207,7 +231,9 @@ function keyboard(event: KeyboardEvent) {
               ></textarea>
             </label>
           </fieldset>
+
           <p class="muted">{{ t.antivirus.lifecycleNote }}</p>
+          
           <fieldset
             v-for="(job, index) in draft.schedules"
             :key="job.id"
@@ -215,14 +241,14 @@ function keyboard(event: KeyboardEvent) {
           >
             <legend>{{ t.antivirus.job }} {{ index + 1 }}</legend>
             <NasSwitch v-model="job.enabled" :label="t.antivirus.jobEnabled" />
-            <label class="field"
-              >{{ t.antivirus.scanType
-              }}<select v-model="job.kind">
+            <label class="field">
+              {{ t.antivirus.scanType }}
+              <select v-model="job.kind">
                 <option v-for="kind in kinds" :key="kind" :value="kind">
                   {{ t.antivirus.kinds[kind] }}
                 </option>
-              </select></label
-            >
+              </select>
+            </label>
             <label class="field"
               >{{ t.antivirus.day
               }}<select v-model="job.day">
@@ -233,10 +259,11 @@ function keyboard(event: KeyboardEvent) {
             >
             <label class="field"
               >{{ t.antivirus.time }}<input v-model="job.time" type="time" required
-            /></label>
-            <label v-if="job.kind === 'file' || job.kind === 'custom'" class="field"
-              >{{ t.antivirus.paths
-              }}<textarea
+            />
+          </label>
+            <label v-if="job.kind === 'file' || job.kind === 'custom'" class="field">
+              {{ t.antivirus.paths }}
+              <textarea
                 :value="job.paths.join('\n')"
                 required
                 rows="2"
@@ -249,9 +276,11 @@ function keyboard(event: KeyboardEvent) {
                 "
               ></textarea>
             </label>
+
             <p v-if="draft.schedulerEnabled && power.conflict(job)" role="alert">
               {{ power.conflict(job) === 'off' ? t.antivirus.powerOff : t.antivirus.powerSoon }}
             </p>
+            
             <button
               type="button"
               class="action_button danger"
@@ -260,6 +289,7 @@ function keyboard(event: KeyboardEvent) {
               {{ t.remove }}
             </button>
           </fieldset>
+
           <button
             type="button"
             class="action_button"
@@ -304,6 +334,7 @@ function keyboard(event: KeyboardEvent) {
         </div>
       </div>
     </form>
+    
     <template #footer>
       <button type="button" class="action_button" @click="open = false">{{ t.cancel }}</button>
       <button

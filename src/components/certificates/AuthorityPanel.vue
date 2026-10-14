@@ -13,7 +13,6 @@ interface Props {
 
 defineProps<Props>();
 
-// Served by the gateway to every browser, with the type that lets some of them offer to trust it.
 const AUTHORITY_URL = '/auth/ca.crt';
 const PLATFORMS = ['windows', 'macos', 'linux', 'firefox', 'android', 'ios'] as const;
 
@@ -23,7 +22,6 @@ const { t } = useI18n();
 const chosen = ref<Platform>(PLATFORMS[0]);
 const tabs = ref<HTMLButtonElement[]>([]);
 
-/** The arrows move between the tabs, as in every tab list. */
 async function move(step: number) {
   const index = PLATFORMS.indexOf(chosen.value);
   chosen.value = PLATFORMS[(index + step + PLATFORMS.length) % PLATFORMS.length];
@@ -33,7 +31,6 @@ async function move(step: number) {
 
 </script>
 
-<!-- The authority of the NAS: what a browser has to trust for the NAS's own certificate. -->
 <template>
   <section
     class="surface_card page_panel"

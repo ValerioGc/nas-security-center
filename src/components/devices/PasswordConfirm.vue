@@ -32,7 +32,6 @@ onMounted(() => field.value?.focus());
 
 </script>
 
-<!-- What needs the password of the account once more: the gateway checks it, nothing keeps it. -->
 <template>
   <form class="password_confirm" data-testid="password_confirm" @submit.prevent="submit">
     <p class="muted">{{ note }}</p>

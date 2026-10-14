@@ -16,7 +16,6 @@ interface Props {
 const props = defineProps<Props>();
 
 const { t } = useI18n();
-// What the switch shows: the wanted position while the password is asked, the saved one after.
 const shown = defineModel<boolean>({ default: false });
 const asking = ref(false);
 const busy = ref(false);
@@ -37,10 +36,10 @@ watch(asking, (open) => {
 });
 
 function ask(enabled: boolean) {
-  // Selecting certificate access allows issuing the first device; enforcing it still needs a peer.
   if (enabled && !props.state.current) {
     return;
   }
+  
   asking.value = enabled !== props.state.enabled;
 }
 

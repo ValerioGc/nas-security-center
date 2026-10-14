@@ -22,7 +22,6 @@ const emit = defineEmits<{
 const LIMIT = 20;
 
 const { t } = useI18n();
-// The names as the user is changing them: saved only with the password.
 const draft = ref<string[]>([]);
 const typed = ref('');
 
@@ -52,7 +51,6 @@ function remove(name: string) {
 
 </script>
 
-<!-- The addresses the certificate of the NAS covers beyond its own. -->
 <template>
   <section
     class="surface_card page_panel"

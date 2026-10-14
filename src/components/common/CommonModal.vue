@@ -17,7 +17,6 @@ const { t } = useI18n();
 </script>
 
 <template>
-  <!-- The native dialog of the library: Escape and a click beside the panel close it. -->
   <NasModal v-if="open" :label="title" @close="open = false">
     <section class="modal surface_card">
       <div class="card_heading">

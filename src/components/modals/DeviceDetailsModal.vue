@@ -8,9 +8,11 @@ import { deviceStatus, formatFingerprint } from '@/utils/deviceStatus';
 import { failureMessage } from '@/utils/failureMessage';
 import { formatMoment } from '@/utils/formatMoment';
 import { NasIcon } from '@valeriogc/nas-base-app';
+
 import deleteIcon from '@/assets/icons/delete.svg?url';
 import refreshIcon from '@/assets/icons/refresh.svg?url';
 import revokeIcon from '@/assets/icons/revoke.svg?url';
+
 import CommonModal from '@/components/common/CommonModal.vue';
 import CredentialPanel from '@/components/devices/CredentialPanel.vue';
 import DeviceIconPicker from '@/components/devices/DeviceIconPicker.vue';

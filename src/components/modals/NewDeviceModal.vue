@@ -5,6 +5,7 @@ import { useI18n } from '@/i18n';
 import { addDevice } from '@/services/devices';
 import type { Device, DeviceCredential, DeviceIcon } from '@/types';
 import { failureMessage } from '@/utils/failureMessage';
+
 import CommonModal from '@/components/common/CommonModal.vue';
 import CredentialPanel from '@/components/devices/CredentialPanel.vue';
 import DeviceIconPicker from '@/components/devices/DeviceIconPicker.vue';
@@ -21,7 +22,6 @@ const icon = ref<DeviceIcon>('desktop');
 const password = ref('');
 const busy = ref(false);
 const error = ref('');
-// Once issued, the certificate of the new device, until the modal closes.
 const credential = ref<DeviceCredential | null>(null);
 
 const ready = computed(() => name.value.trim() !== '' && password.value !== '' && !busy.value);
@@ -30,6 +30,7 @@ async function submit() {
   if (!ready.value) {
     return;
   }
+  
   busy.value = true;
   error.value = '';
   try {

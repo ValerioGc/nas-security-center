@@ -23,7 +23,6 @@ const { t } = useI18n();
 
 </script>
 
-<!-- The certificate HTTPS answers with now, and what can be done with it. -->
 <template>
   <section
     class="surface_card page_panel"

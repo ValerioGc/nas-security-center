@@ -4,7 +4,9 @@ import { nextTick, ref } from 'vue';
 import { useI18n } from '@/i18n';
 import { formatMoment } from '@/utils/formatMoment';
 import type { AccessRule, AccessRuleKind, NewAccessRule } from '@/types';
+
 import { NasIcon } from '@valeriogc/nas-base-app';
+
 import addIcon from '@/assets/icons/add.svg?url';
 import deleteIcon from '@/assets/icons/delete.svg?url';
 
@@ -36,11 +38,11 @@ async function open() {
   valueField.value?.focus();
 }
 
-/** Sends the new rule; the fields close and empty themselves only once the launcher took it. */
 function submit() {
   if (props.busy || !value.value.trim()) {
     return;
   }
+
   emit(
     'add',
     { kind: kind.value, value: value.value.trim(), label: label.value.trim() },
