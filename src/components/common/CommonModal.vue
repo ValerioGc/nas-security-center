@@ -41,11 +41,8 @@ const { t } = useI18n();
 
 .modal {
   width: min(560px, 100%);
-  height: auto;
-  max-height: calc(100vh - 40px);
   padding: 0;
   color: inherit;
-  overflow: auto;
 }
 
 .close {

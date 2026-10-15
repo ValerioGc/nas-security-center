@@ -8,7 +8,6 @@ import addIcon from '@/assets/icons/add.svg?url';
 import closeIcon from '@/assets/icons/close.svg?url';
 
 interface Props {
-  automatic: string[];
   extra: string[];
   custom: boolean;
 }
@@ -61,10 +60,6 @@ function remove(name: string) {
     <p class="muted">{{ t.extraNamesNote }}</p>
     <p v-if="custom" class="muted" data-testid="certificate_custom_note">
       {{ t.customActiveNote }}
-    </p>
-    <p class="muted">
-      {{ t.automaticNamesLabel }}:
-      <span data-testid="automatic_names">{{ automatic.join(', ') }}</span>
     </p>
 
     <ul v-if="draft.length" class="name_list">
@@ -166,7 +161,9 @@ h2 {
   gap: 10px;
 
   .field {
-    flex: 1 1 220px;
+    flex: 0 1 18rem;
+    width: 18rem;
+    max-width: 100%;
   }
 }
 

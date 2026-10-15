@@ -144,6 +144,19 @@ export const it = {
   plainConnection:
     'Pagina aperta in HTTP. La connessione non è cifrata e il browser la segnala come non sicura indipendentemente dal certificato installato.',
   openHttps: 'Apri in HTTPS',
+  httpsSettingsTitle: 'Connessione HTTPS',
+  httpsSettingsNote:
+    'La porta e il reindirizzamento si applicano senza rigenerare il certificato o modificare l’autorità del NAS.',
+  httpsPort: 'Porta HTTPS',
+  forceHttps: 'Forza HTTPS',
+  forceHttpsNote:
+    'Reindirizza gli accessi HTTP verso HTTPS sulla porta scelta. Lo schermo collegato al NAS mantiene il proprio accesso locale.',
+  invalidHttpsPort: 'Inserisci una porta intera tra 1 e 65535.',
+  httpsSaveNote:
+    'Il certificato rimane invariato. Se cambia la porta HTTPS o attivi il reindirizzamento, la console viene aperta sul nuovo indirizzo. Una porta già occupata non viene applicata.',
+  httpsPortUnavailable: 'La porta HTTPS è già occupata o non disponibile.',
+  httpsSaveFailed:
+    'Non è stato possibile applicare le impostazioni HTTPS. La connessione precedente rimane attiva.',
   hostNotCovered:
     'Il NAS è stato raggiunto come «{host}», indirizzo non coperto dal certificato. Il browser lo segnala come non sicuro, anche con l’autorità installata, finché l’indirizzo non viene aggiunto ai nomi del certificato.',
   hostCovered:
@@ -163,7 +176,6 @@ export const it = {
   extraNamesTitle: 'Indirizzi aggiuntivi',
   extraNamesNote:
     'Indirizzi coperti automaticamente dal certificato del NAS. È possibile aggiungere altri indirizzi di accesso, come un dominio, un nome dinamico o l’indirizzo di una VPN o di un inoltro.',
-  automaticNamesLabel: 'Coperti da soli',
   extraNameHint: 'nas.esempio.it o 10.8.0.2',
   addName: 'Aggiungi',
   saveNames: 'Salva indirizzi',
@@ -249,6 +261,7 @@ export const it = {
       'Le scansioni e l’aggiornamento delle firme vengono fermati. L’antivirus resta installato, con impostazioni e quarantena invariate.',
     confirmDisable: 'Conferma disattivazione',
     loadingStatus: 'Lettura dello stato dell’antivirus in corso',
+    preparing: 'Preparazione dell’antivirus in corso',
     emptyQuarantineNote:
       'I file rilevati spostati in quarantena vengono elencati qui, isolati dal resto del NAS.',
     scanCards: 'Opzioni di ogni tipo di scansione',

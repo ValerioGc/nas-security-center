@@ -10,18 +10,19 @@ it('shows how far an operation is, rounded and kept within the bar', async () =>
   expect(bar.attributes('aria-label')).toBe('Progress');
   expect(bar.attributes('aria-valuenow')).toBe('42');
   expect(wrapper.get('.operation_percent').text()).toBe('42%');
-  expect(wrapper.get('.operation_fill').attributes('style')).toContain('width: 42%');
+  expect(bar.attributes('value')).toBe('42');
+  expect(bar.attributes('max')).toBe('100');
   expect(wrapper.get('.operation_detail').text()).toBe('Files: 12');
   await wrapper.setProps({ progress: 140 });
   expect(bar.attributes('aria-valuenow')).toBe('100');
 });
 
-it('runs a stripe along the track when it cannot tell how far it is', () => {
+it('shows a spinner without a misleading bar when progress is unknown', () => {
   const wrapper = mount(OperationProgress, {
     props: { label: 'Progress', phase: 'Installing…', progress: null },
   });
-  expect(wrapper.get('progress').attributes('aria-valuenow')).toBeUndefined();
-  expect(wrapper.find('.operation_track--unknown').exists()).toBe(true);
+  expect(wrapper.find('progress').exists()).toBe(false);
+  expect(wrapper.find('.operation_spinner').exists()).toBe(true);
   expect(wrapper.find('.operation_percent').exists()).toBe(false);
   expect(wrapper.find('.operation_detail').exists()).toBe(false);
 });

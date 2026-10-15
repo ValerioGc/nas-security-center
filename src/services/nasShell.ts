@@ -39,6 +39,8 @@ export type ShellRequest =
   | 'save-sign-in-policy'
   | 'refused-sign-ins'
   | 'certificate'
+  | 'https-settings'
+  | 'save-https-settings'
   | 'save-certificate-names'
   | 'renew-certificate'
   | 'upload-certificate'

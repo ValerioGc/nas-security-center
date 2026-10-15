@@ -1,6 +1,6 @@
 <script setup lang="ts">
 
-import { ref } from 'vue';
+import { computed, ref } from 'vue';
 import { pickAntivirusPath } from '@/services/nasShell';
 import { failureMessage } from '@/utils/failureMessage';
 import { useI18n } from '@/i18n';
@@ -22,6 +22,15 @@ const { t, locale } = useI18n();
 const { status, error, busy, enable, scan, save, quarantine, restore, remove, forget, load } =
   useAntivirus();
 const settingsOpen = ref(false);
+const activating = computed(() =>
+  ['installing', 'updating', 'resuming'].includes(status.value?.operation.phase ?? ''),
+);
+const preparing = computed(
+  () =>
+    activating.value &&
+    (status.value?.operation.phase !== 'installing' ||
+      (status.value?.operation.progress ?? 0) >= 100),
+);
 const picking = ref(false);
 async function choosePath(folder: boolean) {
   picking.value = true;
@@ -105,6 +114,7 @@ async function confirmed() {
         v-if="status"
         type="button"
         class="icon_button settings_button"
+        :disabled="activating"
         :aria-label="t.antivirus.settings"
         :title="t.antivirus.settings"
         data-testid="antivirus_settings"
@@ -125,7 +135,7 @@ async function confirmed() {
     />
     <template v-if="status">
       <OperationProgress
-        v-if="status.operation.phase"
+        v-if="status.operation.phase && !preparing"
         class="antivirus_operation"
         :label="t.antivirus.progress"
         :phase="phaseLabel(status.operation.phase)"
@@ -139,7 +149,14 @@ async function confirmed() {
         "
       />
       <EmptyState
-        v-if="!status.settings.enabled"
+        v-if="preparing"
+        loading
+        :title="t.antivirus.preparing"
+        :text="phaseLabel(status.operation.phase)"
+        testid="antivirus_preparing"
+      />
+      <EmptyState
+        v-else-if="!activating && !status.settings.enabled"
         :svg="antivirusIcon"
         :title="t.antivirus.disabled"
         :text="t.antivirus.disabledNote"
@@ -156,7 +173,7 @@ async function confirmed() {
           {{ t.antivirus.openSettings }}
         </button>
       </EmptyState>
-      <template v-else>
+      <template v-else-if="!activating">
         <div class="surface_card page_panel" data-testid="antivirus_scans">
           <h2>{{ t.antivirus.scan }}</h2>
           <ScanKindPicker v-model="selected" :disabled="busy" />

@@ -32,6 +32,10 @@ NAS and how.
   (a domain, a dynamic name, a VPN, a forward), a new certificate issued at once, a custom one
   uploaded in PEM with its key (for example Let's Encrypt), and the NAS's own restored. Every change
   asks for the password of the account and applies from the next connection, without restarts.
+  The HTTPS port (443 by default) and the **Force HTTPS** switch are saved separately: changing
+  either preserves the current certificate, including custom certificates, and the NAS authority.
+  An occupied port is rejected before replacing the listener. HTTP access redirects to the selected
+  HTTPS port when enforced; the physical screen and local health checks keep their local access.
 
 The wizard creates only the account with its password and the CA for HTTPS. To turn mTLS on after
 signing in, first select the access with a certificate, then add the first device, import its

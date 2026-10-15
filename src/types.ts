@@ -1,6 +1,11 @@
 /** The sections of the application, in the order of the sidebar. */
 export type Section = 'access' | 'devices' | 'certificates' | 'logs' | 'antivirus';
 
+export interface HttpsSettings {
+  port: number;
+  force: boolean;
+}
+
 /** The icons a device can be shown with. */
 export type DeviceIcon = 'tv' | 'desktop' | 'laptop' | 'phone' | 'projector';
 

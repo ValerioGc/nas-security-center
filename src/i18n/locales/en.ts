@@ -144,6 +144,18 @@ export const en: typeof it = {
   plainConnection:
     'Page open over HTTP. The connection is not encrypted and the browser flags it as not secure regardless of the installed certificate.',
   openHttps: 'Open over HTTPS',
+  httpsSettingsTitle: 'HTTPS connection',
+  httpsSettingsNote:
+    'The port and redirection apply without regenerating the certificate or changing the NAS authority.',
+  httpsPort: 'HTTPS port',
+  forceHttps: 'Force HTTPS',
+  forceHttpsNote:
+    'Redirect HTTP access to HTTPS on the selected port. The screen connected to the NAS keeps its local access.',
+  invalidHttpsPort: 'Enter a whole port number between 1 and 65535.',
+  httpsSaveNote:
+    'The certificate stays unchanged. When the HTTPS port changes or redirection is enabled, the console opens at the new address. An occupied port will not be applied.',
+  httpsPortUnavailable: 'The HTTPS port is already in use or unavailable.',
+  httpsSaveFailed: 'HTTPS settings could not be applied. The previous connection remains active.',
   hostNotCovered:
     'The NAS was reached as “{host}”, an address not covered by the certificate. The browser flags it as not secure, even with the authority installed, until the address is added to the names of the certificate.',
   hostCovered:
@@ -163,7 +175,6 @@ export const en: typeof it = {
   extraNamesTitle: 'Additional addresses',
   extraNamesNote:
     'Addresses covered automatically by the certificate of the NAS. Other access addresses can be added, such as a domain, a dynamic name or the address of a VPN or of a forward.',
-  automaticNamesLabel: 'Covered by itself',
   extraNameHint: 'nas.example.org or 10.8.0.2',
   addName: 'Add',
   saveNames: 'Save addresses',
@@ -249,6 +260,7 @@ export const en: typeof it = {
       'Scans and signature updates stop. The antivirus stays installed, with settings and quarantine unchanged.',
     confirmDisable: 'Confirm disabling',
     loadingStatus: 'Reading the state of the antivirus',
+    preparing: 'Getting the antivirus ready',
     emptyQuarantineNote:
       'Detected files moved to quarantine are listed here, isolated from the rest of the NAS.',
     scanCards: 'Options of each kind of scan',

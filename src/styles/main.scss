@@ -23,15 +23,29 @@
   font-weight: 650;
   // Also on a link that downloads a file.
   text-decoration: none;
+  transition:
+    background-color 0.16s ease,
+    border-color 0.16s ease,
+    box-shadow 0.16s ease;
 
   &:hover:not(:disabled) {
     background: var(--nas-hover);
+    color: var(--nas-foreground);
+    border-color: var(--accent);
   }
 
   &.primary {
     border-color: var(--accent);
     background: var(--accent);
     color: var(--on-accent);
+
+    &:hover:not(:disabled),
+    &:focus-visible {
+      background: color-mix(in srgb, var(--accent) 88%, var(--on-accent));
+      color: var(--on-accent);
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px var(--accent-soft);
+    }
   }
 
   &.danger {

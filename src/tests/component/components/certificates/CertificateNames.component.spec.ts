@@ -7,13 +7,13 @@ beforeEach(() => setLocale('it'));
 
 function mountNames(extra: string[] = []) {
   return mount(CertificateNames, {
-    props: { automatic: ['nas', 'localhost'], extra, custom: false },
+    props: { extra, custom: false },
   });
 }
 
 it('adds valid addresses, refuses the others and saves the list', async () => {
   const wrapper = mountNames(['old.example.org']);
-  expect(wrapper.get('[data-testid="automatic_names"]').text()).toBe('nas, localhost');
+  expect(wrapper.find('[data-testid="automatic_names"]').exists()).toBe(false);
   const save = wrapper.get('[data-testid="extra_names_save"]');
   expect(save.attributes('disabled')).toBeDefined();
 
@@ -32,7 +32,7 @@ it('adds valid addresses, refuses the others and saves the list', async () => {
 
 it('says the additional addresses apply to the NAS certificate while a custom one is in use', () => {
   const wrapper = mount(CertificateNames, {
-    props: { automatic: [], extra: [], custom: true },
+    props: { extra: [], custom: true },
   });
   expect(wrapper.find('[data-testid="certificate_custom_note"]').exists()).toBe(true);
 });

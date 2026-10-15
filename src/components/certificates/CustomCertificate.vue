@@ -88,8 +88,46 @@ h2 {
 
 .custom_files {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(min(220px, 100%), 1fr));
   gap: 12px;
+
+  .field {
+    min-width: 0;
+  }
+
+  input[type='file'] {
+    width: 100%;
+    min-width: 0;
+    padding: 5px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    cursor: pointer;
+
+    &::file-selector-button {
+      margin-right: 12px;
+      padding: 8px 12px;
+      border: 1px solid var(--nas-border);
+      border-radius: 6px;
+      background: var(--accent-soft);
+      color: var(--nas-foreground);
+      font: inherit;
+      font-weight: 600;
+      cursor: pointer;
+      transition:
+        background-color 0.16s ease,
+        border-color 0.16s ease;
+    }
+
+    &:hover::file-selector-button {
+      border-color: var(--accent);
+      background: var(--nas-hover);
+    }
+
+    &:focus-visible {
+      outline: 2px solid var(--accent);
+      outline-offset: 2px;
+    }
+  }
 }
 
 </style>

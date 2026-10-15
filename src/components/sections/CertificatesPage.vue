@@ -19,6 +19,7 @@ import ActiveCertificate from '@/components/certificates/ActiveCertificate.vue';
 import AuthorityPanel from '@/components/certificates/AuthorityPanel.vue';
 import CertificateNames from '@/components/certificates/CertificateNames.vue';
 import CustomCertificate from '@/components/certificates/CustomCertificate.vue';
+import HttpsSettings from '@/components/certificates/HttpsSettings.vue';
 import accessIcon from '@/assets/icons/access.svg?url';
 import errorIcon from '@/assets/icons/error.svg?url';
 import infoIcon from '@/assets/icons/info.svg?url';
@@ -153,12 +154,8 @@ onMounted(load);
         @renew="renew"
         @restore="restore"
       />
-      <CertificateNames
-        :automatic="state.automaticNames"
-        :extra="state.extraNames"
-        :custom="state.custom"
-        @save="saveNames"
-      />
+      <HttpsSettings v-if="state.served" />
+      <CertificateNames :extra="state.extraNames" :custom="state.custom" @save="saveNames" />
       <CustomCertificate @upload="upload" />
       <AuthorityPanel :authority="state.authority" />
     </template>
@@ -181,6 +178,11 @@ onMounted(load);
 .certificates {
   display: grid;
   gap: 18px;
+
+  :deep(.page_panel > h2),
+  :deep(.certificate_header) {
+    margin-bottom: 6px;
+  }
 }
 
 </style>

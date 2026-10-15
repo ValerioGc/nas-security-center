@@ -76,14 +76,26 @@ it('shows actual install progress and locks actions while work is running', asyn
   const wrapper = await page();
   expect(wrapper.get('progress').attributes('aria-valuenow')).toBe('35');
   expect(wrapper.get('.operation_percent').text()).toBe('35%');
-  expect(
-    wrapper.get('[data-testid="antivirus_open_settings"]').attributes('disabled'),
-  ).toBeDefined();
+  expect(wrapper.find('[data-testid="antivirus_off"]').exists()).toBe(false);
+  expect(wrapper.get('[data-testid="antivirus_settings"]').attributes('disabled')).toBeDefined();
   state.operation.progress = null;
   await vi.advanceTimersByTimeAsync(2000);
   await flushPromises();
-  expect(wrapper.get('progress').attributes('aria-valuenow')).toBeUndefined();
-  expect(wrapper.find('.operation_track--unknown').exists()).toBe(true);
+  expect(wrapper.find('progress').exists()).toBe(false);
+  expect(wrapper.find('.operation_spinner').exists()).toBe(true);
+  state.operation.progress = 100;
+  await vi.advanceTimersByTimeAsync(2000);
+  expect(wrapper.find('[data-testid="antivirus_preparing"]').exists()).toBe(true);
+  expect(wrapper.find('progress').exists()).toBe(false);
+  state.settings.enabled = true;
+  state.operation = { phase: 'updating', progress: null, error: null };
+  await vi.advanceTimersByTimeAsync(2000);
+  expect(wrapper.find('[data-testid="antivirus_preparing"]').exists()).toBe(true);
+  expect(wrapper.find('[data-testid="antivirus_scans"]').exists()).toBe(false);
+  state.operation.phase = '';
+  await vi.advanceTimersByTimeAsync(2000);
+  expect(wrapper.find('[data-testid="antivirus_preparing"]').exists()).toBe(false);
+  expect(wrapper.find('[data-testid="antivirus_scans"]').exists()).toBe(true);
 });
 
 it('runs every scan type and uses custom defaults or the Explorer picker', async () => {

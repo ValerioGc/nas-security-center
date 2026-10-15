@@ -35,6 +35,7 @@ async function openInShell(page: Page, firstDevice = false) {
       { id: '9', at: Date.UTC(2026, 9, 2, 8, 15), from: '192.168.1.66', field: 'password' },
     ],
     mtls: { enabled: false, available: true, current: null },
+    https: { port: 443, force: false },
     certificate: {
       served: true,
       custom: false,
@@ -165,6 +166,11 @@ async function openInShell(page: Page, firstDevice = false) {
       return item;
     },
     certificate: () => state.certificate,
+    'https-settings': () => state.https,
+    'save-https-settings': ({ port, force, password }) => {
+      checked(password);
+      return (state.https = { port, force });
+    },
     'save-certificate-names': ({ names, password }) => {
       checked(password);
       state.certificate.extraNames = names;
@@ -416,6 +422,29 @@ test('the certificates page says what the address is missing and adds it with th
   expect(await asked(page)).toContainEqual([
     'save-certificate-names',
     { names: ['nas.esempio.it'], password: 'segreta' },
+  ]);
+});
+
+test('HTTPS settings save the chosen port and slider without changing the certificate', async ({
+  page,
+}) => {
+  const app = await openInShell(page);
+  await app.getByTestId('section_certificates').click();
+  const certificate = await app.getByTestId('active_certificate').textContent();
+  await app.getByTestId('https_port').fill('8443');
+  await app.getByTestId('force_https_switch').click();
+  await app.getByTestId('https_save').click();
+  await expect(app.getByTestId('password_confirm')).toContainText(
+    'Il certificato rimane invariato',
+  );
+  await app.getByTestId('password_confirm_input').fill('segreta');
+  await app.getByTestId('password_confirm_submit').click();
+  await expect(app.getByTestId('password_confirm')).toHaveCount(0);
+  await expect(app.getByTestId('https_save')).toBeDisabled();
+  await expect(app.getByTestId('active_certificate')).toHaveText(certificate!);
+  expect(await asked(page)).toContainEqual([
+    'save-https-settings',
+    { port: 8443, force: true, password: 'segreta' },
   ]);
 });
 
