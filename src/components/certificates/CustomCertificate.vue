@@ -47,6 +47,7 @@ async function upload() {
       <label class="field">
         {{ t.certificateFile }}
         <input
+          name="custom_certificate"
           type="file"
           accept=".crt,.pem,.cer"
           data-testid="custom_certificate_file"
@@ -56,6 +57,7 @@ async function upload() {
       <label class="field">
         {{ t.keyFile }}
         <input
+          name="custom_key"
           type="file"
           accept=".key,.pem"
           data-testid="custom_key_file"

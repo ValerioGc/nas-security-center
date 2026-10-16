@@ -81,6 +81,7 @@ onMounted(load);
         <span>{{ t.httpsPort }}</span>
         <input
           v-model.number="port"
+          name="port"
           type="number"
           min="1"
           max="65535"

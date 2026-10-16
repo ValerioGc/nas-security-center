@@ -40,6 +40,7 @@ onMounted(() => field.value?.focus());
       <input
         ref="field"
         v-model="password"
+        name="password"
         type="password"
         maxlength="128"
         autocomplete="current-password"

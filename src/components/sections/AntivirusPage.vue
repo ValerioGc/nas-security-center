@@ -181,6 +181,7 @@ async function confirmed() {
             >{{ t.antivirus.paths
             }}<textarea
               v-model="paths"
+              name="paths"
               rows="3"
               :placeholder="t.antivirus.pathsHint"
               :disabled="busy"

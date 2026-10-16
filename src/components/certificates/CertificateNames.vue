@@ -80,6 +80,7 @@ function remove(name: string) {
       <label class="field">
         <input
           v-model="typed"
+          name="typed"
           type="text"
           :aria-label="t.extraNamesTitle"
           autocapitalize="none"

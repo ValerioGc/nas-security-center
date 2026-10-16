@@ -206,7 +206,11 @@ function keyboard(event: KeyboardEvent) {
 
             <label v-if="draft[phase].enabled" class="field">
               {{ t.antivirus.scanType }}
-              <select v-model="draft[phase].kind" :data-testid="`antivirus_${phase}_kind`">
+              <select
+                v-model="draft[phase].kind"
+                name="scan_kind"
+                :data-testid="`antivirus_${phase}_kind`"
+              >
                 <option v-for="kind in kinds" :key="kind" :value="kind">
                   {{ t.antivirus.kinds[kind] }}
                 </option>
@@ -219,6 +223,7 @@ function keyboard(event: KeyboardEvent) {
             >
               {{ t.antivirus.paths }}
               <textarea
+                name="scan_paths"
                 :value="draft[phase].paths.join('\n')"
                 required
                 rows="2"
@@ -243,7 +248,7 @@ function keyboard(event: KeyboardEvent) {
             <NasSwitch v-model="job.enabled" :label="t.antivirus.jobEnabled" />
             <label class="field">
               {{ t.antivirus.scanType }}
-              <select v-model="job.kind">
+              <select v-model="job.kind" name="job_kind">
                 <option v-for="kind in kinds" :key="kind" :value="kind">
                   {{ t.antivirus.kinds[kind] }}
                 </option>
@@ -251,18 +256,20 @@ function keyboard(event: KeyboardEvent) {
             </label>
             <label class="field"
               >{{ t.antivirus.day
-              }}<select v-model="job.day">
+              }}<select v-model="job.day" name="job_day">
                 <option v-for="day in days" :key="day.id" :value="day.id">
                   {{ t.antivirus.days[day.key] }}
                 </option>
               </select></label
             >
             <label class="field"
-              >{{ t.antivirus.time }}<input v-model="job.time" type="time" required />
+              >{{ t.antivirus.time
+              }}<input v-model="job.time" name="job_time" type="time" required />
             </label>
             <label v-if="job.kind === 'file' || job.kind === 'custom'" class="field">
               {{ t.antivirus.paths }}
               <textarea
+                name="job_paths"
                 :value="job.paths.join('\n')"
                 required
                 rows="2"

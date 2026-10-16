@@ -168,6 +168,7 @@ const remove = () =>
           {{ t.deviceName }}
           <input
             v-model="name"
+            name="name"
             type="text"
             maxlength="60"
             autocomplete="off"

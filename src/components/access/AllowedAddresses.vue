@@ -108,6 +108,7 @@ function submit() {
         <input
           ref="valueField"
           v-model="value"
+          name="value"
           type="text"
           maxlength="64"
           autocapitalize="none"
@@ -121,6 +122,7 @@ function submit() {
         {{ t.accessRuleLabel }}
         <input
           v-model="label"
+          name="label"
           type="text"
           maxlength="64"
           :placeholder="t.accessRuleLabelHint"

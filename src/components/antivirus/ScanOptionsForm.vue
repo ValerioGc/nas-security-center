@@ -56,13 +56,23 @@ const exclusions = computed({
     <!-- Default paths option -->
     <label v-if="props.kind === 'quick' || props.kind === 'custom'" class="field">
       {{ t.antivirus.defaultPaths }}
-      <textarea v-model="paths" rows="3" :placeholder="t.antivirus.pathsHint"></textarea>
+      <textarea
+        v-model="paths"
+        name="paths"
+        rows="3"
+        :placeholder="t.antivirus.pathsHint"
+      ></textarea>
     </label>
 
     <!-- Exclusions option -->
     <label class="field">
       {{ t.antivirus.exclusions }}
-      <textarea v-model="exclusions" rows="3" :placeholder="t.antivirus.pathsHint"></textarea>
+      <textarea
+        v-model="exclusions"
+        name="exclusions"
+        rows="3"
+        :placeholder="t.antivirus.pathsHint"
+      ></textarea>
     </label>
     <p class="muted">{{ t.antivirus.limitsNote }}</p>
   </div>
