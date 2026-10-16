@@ -102,7 +102,7 @@ function remove(name: string) {
     </form>
     <p v-if="invalid" class="alert" role="alert">{{ t.invalidName }}</p>
 
-    <div class="app_toolbar">
+    <div class="app_toolbar save_toolbar">
       <button
         type="button"
         class="action_button primary"
@@ -166,6 +166,10 @@ h2 {
     width: 18rem;
     max-width: 100%;
   }
+}
+
+.save_toolbar {
+  justify-content: flex-end;
 }
 
 </style>

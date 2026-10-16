@@ -106,7 +106,7 @@ onMounted(load);
           {{ t.retry }}
         </button>
       </p>
-      <div class="app_toolbar">
+      <div class="app_toolbar save_toolbar">
         <button
           type="submit"
           class="action_button primary"
@@ -145,6 +145,10 @@ h2 {
 .https_port {
   width: 9rem;
   max-width: 100%;
+}
+
+.save_toolbar {
+  justify-content: flex-end;
 }
 
 </style>

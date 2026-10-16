@@ -2,6 +2,19 @@
 
 All notable changes to nas-security-center are documented in this file.
 
+## [Unreleased]
+
+### Added
+
+- A computer paired with NAS Sync shows the badge "Client di sincronizzazione" among the devices,
+  without the renewal of its certificate.
+
+### Changed
+
+- The fields of the forms have a `name`.
+- The save buttons of the HTTPS connection and of the additional addresses sit at the right end of
+  their cards.
+
 ## [0.1.18]
 
 ### Changed
