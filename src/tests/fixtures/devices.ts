@@ -19,6 +19,7 @@ export function device(changes: Partial<Device> = {}): Device {
       seenAt: ISSUED + 2 * DAY,
     },
     current: false,
+    sync: false,
     ...changes,
   };
 }

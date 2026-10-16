@@ -34,6 +34,8 @@ export interface Device {
   certificate: DeviceCertificate | null;
   /** The device this page is open on. */
   current: boolean;
+  /** A computer of the sync client: it renews its certificate itself, with the password. */
+  sync: boolean;
 }
 
 /** What a device is created with, and what an edit changes. */

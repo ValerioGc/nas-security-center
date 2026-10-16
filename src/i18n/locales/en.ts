@@ -67,6 +67,7 @@ export const en: typeof it = {
   },
   noDevices: 'No registered devices',
   currentDevice: 'This device',
+  syncClient: 'Sync client',
   deviceStates: {
     pending: 'Waiting for the first sign-in',
     active: 'Active',

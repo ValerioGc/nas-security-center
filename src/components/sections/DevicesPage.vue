@@ -96,6 +96,7 @@ onMounted(load);
           </span>
           <span class="device_badges">
             <span v-if="device.current" class="device_current">{{ t.currentDevice }}</span>
+            <span v-if="device.sync" class="device_current">{{ t.syncClient }}</span>
             <span :class="['device_state', deviceStatus(device)]">
               {{ t.deviceStates[deviceStatus(device)] }}
             </span>

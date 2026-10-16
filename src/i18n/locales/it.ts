@@ -66,6 +66,7 @@ export const it = {
   },
   noDevices: 'Nessun dispositivo registrato',
   currentDevice: 'Questo dispositivo',
+  syncClient: 'Client di sincronizzazione',
   deviceStates: {
     pending: 'In attesa del primo accesso',
     active: 'Attivo',

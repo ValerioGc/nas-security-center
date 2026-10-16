@@ -150,6 +150,15 @@ describe('the details of a device', () => {
     wrapper.unmount();
   });
 
+  it('marks a computer of the sync client and leaves its renewal to the client', () => {
+    const wrapper = details(device({ sync: true }), false);
+
+    expect(wrapper.text()).toContain('Client di sincronizzazione');
+    expect(wrapper.find('[data-testid="device_renew"]').exists()).toBe(false);
+    expect(wrapper.find('[data-testid="device_revoke"]').exists()).toBe(true);
+    wrapper.unmount();
+  });
+
   it('locks the actions on the device in use while mTLS is on', () => {
     const wrapper = details(device({ current: true }), true);
 

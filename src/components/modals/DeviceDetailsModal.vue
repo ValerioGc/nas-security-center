@@ -193,6 +193,7 @@ const remove = () =>
           <dd>
             <span :class="['device_state', status]">{{ t.deviceStates[status] }}</span>
             <span v-if="device.current" class="device_current">{{ t.currentDevice }}</span>
+            <span v-if="device.sync" class="device_current">{{ t.syncClient }}</span>
           </dd>
           <template v-if="certificate">
             <dt>{{ t.fingerprint }}</dt>
@@ -219,6 +220,7 @@ const remove = () =>
 
         <div class="app_toolbar">
           <button
+            v-if="!device.sync"
             type="button"
             class="action_button"
             :disabled="locked || busy"
