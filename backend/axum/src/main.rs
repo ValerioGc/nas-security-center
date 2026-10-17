@@ -1,3 +1,4 @@
+mod launcher_only;
 use axum::{
     extract::State,
     http::{header, StatusCode, Uri},
@@ -164,7 +165,7 @@ async fn serve(
         .fallback(get(static_file))
         .with_state(state);
     println!("nas-security-center listening on {}", path.display());
-    let result = axum::serve(listener, app)
+    let result = axum::serve(launcher_only::LauncherOnly::new(listener), app)
         .with_graceful_shutdown(stop)
         .await;
     if let Err(error) = tokio::fs::remove_file(path).await {
