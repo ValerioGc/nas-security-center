@@ -14,7 +14,7 @@ export function validCertificateName(name: string) {
   if (/^[\d.]+$/.test(name)) {
     return false;
   }
-  
+
   const host = name.startsWith('*.') ? name.slice(2) : name;
   return (
     name.length <= 253 && host.length > 0 && host.split('.').every((label) => LABEL.test(label))

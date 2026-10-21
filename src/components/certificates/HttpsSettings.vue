@@ -46,7 +46,7 @@ async function confirm(password: string) {
   if (!valid.value) {
     return;
   }
-  
+
   busy.value = true;
   error.value = '';
   try {

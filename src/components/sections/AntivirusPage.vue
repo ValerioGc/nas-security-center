@@ -20,8 +20,7 @@ import { formatMoment } from '@/utils/formatMoment';
 
 const { t } = useI18n();
 const { status, error, busy, enable, scan, save, quarantine, restore, remove, forget, load } =
-  
-useAntivirus();
+  useAntivirus();
 
 const settingsOpen = ref(false);
 
@@ -259,7 +258,7 @@ s
           <p class="muted">
             {{ formatMoment(status.report.at) }} · {{ t.antivirus.scanned }}:
             {{ status.report.scanned }} · {{ t.antivirus.found }}: {{ status.report.found }}
-            
+
             <template v-if="status.report.skipped">
               · {{ t.antivirus.skipped }}: {{ status.report.skipped }}
             </template>

@@ -62,7 +62,7 @@ const title = computed(() => {
     revoke: t.value.revokeCertificate,
     remove: t.value.removeDevice,
   };
-  
+
   return titles[stage.value];
 });
 

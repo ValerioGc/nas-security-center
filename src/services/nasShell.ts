@@ -72,16 +72,16 @@ export async function pickAntivirusPath(folder = false): Promise<string | null> 
           ? error.message
           : 'Launcher unavailable',
       );
-  });
-  
+    });
+
   if (result.error) {
     throw new Error(result.error);
   }
-  
+
   if (result.cancelled || !result.files.length) {
     return null;
   }
-  
+
   const path = result.files[0]?.path;
   if (!path?.startsWith('/') || path.split('/').includes('..')) {
     throw new Error('invalid picker path');

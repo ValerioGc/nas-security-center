@@ -26,7 +26,7 @@ export function useAntivirus() {
       }
     }
   }
-  
+
   async function poll() {
     await load();
     if (!disposed) {
@@ -53,7 +53,7 @@ export function useAntivirus() {
   }
 
   onMounted(() => void poll());
-  
+
   onUnmounted(() => {
     disposed = true;
     clearTimeout(timer);

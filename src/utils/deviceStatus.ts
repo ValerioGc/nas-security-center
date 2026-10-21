@@ -7,11 +7,11 @@ export function deviceStatus(device: Device, now = Date.now()): DeviceStatus {
   if (!certificate) {
     return 'none';
   }
-  
+
   if (certificate.state !== 'revoked' && certificate.expiresAt <= now) {
     return 'expired';
   }
-  
+
   return certificate.state;
 }
 
