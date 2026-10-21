@@ -1,0 +1,12 @@
+// App tones on top of the @valeriogc/nas-base-app palette.
+
+:root {
+  --on-accent: #ffffff;
+}
+
+:root[data-theme='dark'] {
+  --tone-success: #4fc98a;
+  --tone-warning: #e3a94f;
+  --danger: #ef6b78;
+  --on-accent: #0e1922;
+}
