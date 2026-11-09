@@ -16,7 +16,8 @@ NAS and how.
   permanent deletion with confirmation. Results, threats and errors produce notifications of the
   launcher. Turning it off stops FreshClam and the jobs, keeping packages and quarantine.
 - **Access**: notification of refused sign-ins, blocking of the address after failed attempts,
-  discovery on the network by NAS Finder (UDP 39877, off after the wizard) and allowed addresses
+  discovery on the network by NAS Finder (UDP 39877, off after the wizard, with the port, the
+  responder and the firewall read from the launcher) and allowed addresses
   (single or CIDR ranges). The rules apply to the whole NAS: the launcher applies them, even with
   the app closed, and the blocking of attempts belongs to the gateway.
 - **Security logs**: the refused sign-ins the launcher records while the notification is on.
