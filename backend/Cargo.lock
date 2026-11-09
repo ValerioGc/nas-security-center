@@ -237,7 +237,7 @@ dependencies = [
 
 [[package]]
 name = "nas-security-center-axum"
-version = "0.9.0"
+version = "0.9.1"
 dependencies = [
  "axum",
  "serde_json",
