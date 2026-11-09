@@ -7,12 +7,14 @@ import type { AccessRule, NewAccessRule } from '@/types';
 
 import { NasNumberStepper, NasSwitch } from '@valeriogc/nas-base-app';
 import AllowedAddresses from '@/components/access/AllowedAddresses.vue';
+import DiscoveryPanel from '@/components/access/DiscoveryPanel.vue';
 
 const { t } = useI18n();
 const {
   settings,
   policy,
   discovery,
+  discoveryStatus,
   rules,
   loading,
   error,
@@ -112,16 +114,13 @@ onMounted(load);
       </div>
 
       <div class="surface_card page_panel" data-testid="access_discovery">
-        <template v-if="discovery">
-          <NasSwitch
-            v-model="discovery.enabled"
-            :label="t.discovery"
-            :disabled="discoveryBusy"
-            testid="access_discovery_enabled"
-            @update:model-value="saveDiscovery"
-          />
-          <p class="muted">{{ t.discoveryNote }}</p>
-        </template>
+        <DiscoveryPanel
+          v-if="discovery"
+          v-model="discovery.enabled"
+          :status="discoveryStatus"
+          :busy="discoveryBusy"
+          @update:model-value="saveDiscovery"
+        />
 
         <p v-if="discoveryError" class="alert" role="alert" data-testid="access_discovery_error">
           {{ discoveryError }}

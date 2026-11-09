@@ -56,7 +56,7 @@ const { t } = useI18n();
         <code class="certificate_fingerprint">{{ certificate.fingerprint }}</code>
       </dd>
     </dl>
-    <div class="app_toolbar">
+    <div class="app_toolbar panel_actions">
       <button
         v-if="custom"
         type="button"
@@ -136,6 +136,10 @@ const { t } = useI18n();
 .certificate_fingerprint {
   font-size: 12px;
   overflow-wrap: anywhere;
+}
+
+.panel_actions {
+  justify-content: flex-end;
 }
 
 </style>

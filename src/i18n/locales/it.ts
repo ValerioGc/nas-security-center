@@ -32,7 +32,26 @@ export const it = {
   signInLockUnavailable:
     'Il gateway non è disponibile. Le impostazioni del blocco non sono accessibili.',
   discovery: 'Rilevamento in rete (NAS Finder)',
-  discoveryNote: 'Consente a NAS Finder di trovare il NAS nella rete locale.',
+  discoveryNote:
+    'Consente a NAS Finder di trovare il NAS nella rete locale. Il NAS risponde solo ai dispositivi della stessa rete e non comunica account né dati di accesso.',
+  discoveryStates: { active: 'Attivo', off: 'Disattivato', problem: 'Da verificare' },
+  discoveryDetails: 'Stato del rilevamento',
+  discoveryPort: 'Porta',
+  discoveryPortValue: 'UDP {port}',
+  discoveryScope: 'Raggiungibile da',
+  discoveryScopeValue: 'Rete locale, IPv4',
+  discoveryResponder: 'Servizio di risposta',
+  discoveryListening: 'In ascolto',
+  discoverySilent: 'Non in ascolto',
+  discoveryFirewall: 'Firewall',
+  discoveryOpen: 'Porta aperta',
+  discoveryClosed: 'Porta chiusa',
+  discoveryNotApplied: 'Modifica non applicata',
+  discoveryUnknown: 'Non verificabile',
+  discoverySilentNote:
+    'Il gateway non è in ascolto sulla porta {port}, quindi NAS Finder non trova il NAS.',
+  discoveryNotAppliedNote:
+    'L’ultima modifica del firewall non è stata applicata. Disattiva e riattiva l’opzione per riprovare.',
   allowedAddresses: 'Indirizzi ammessi',
   allowedAddressesOn:
     'L’accesso al NAS è consentito esclusivamente agli indirizzi e alle reti elencati. Le connessioni già stabilite rimangono attive.',
@@ -131,9 +150,9 @@ export const it = {
     'Questo browser non usa un certificato del NAS. Il certificato va installato prima di attivare l’opzione.',
 
   logsIntro: 'Registro dei tentativi di accesso rifiutati, ordinati dal più recente.',
-  when: 'Quando',
-  from: 'Da',
-  wrongField: 'Campo sbagliato',
+  logDate: 'Data',
+  logAddress: 'Indirizzo',
+  logField: 'Campo',
   fields: { username: 'Nome utente', password: 'Password' },
   noRefused: 'Nessun accesso rifiutato.',
   notifyOff:
@@ -161,7 +180,7 @@ export const it = {
   hostNotCovered:
     'Il NAS è stato raggiunto come «{host}», indirizzo non coperto dal certificato. Il browser lo segnala come non sicuro, anche con l’autorità installata, finché l’indirizzo non viene aggiunto ai nomi del certificato.',
   hostCovered:
-    '«{host}» è coperto dal certificato. Se il browser lo segnala ancora come non sicuro, l’autorità del NAS non è installata tra quelle attendibili di questo dispositivo.',
+    'L’indirizzo «{host}» è incluso nel certificato in uso. Se il browser mostra ancora un avviso di sicurezza, installa l’autorità del NAS tra le autorità attendibili di questo dispositivo.',
   activeCertificate: 'Certificato in uso',
   certificateSources: { nas: 'Del NAS', custom: 'Personalizzato' },
   certificateSubject: 'Soggetto',

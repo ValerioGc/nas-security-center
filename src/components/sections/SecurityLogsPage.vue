@@ -77,9 +77,9 @@ onMounted(load);
         <table data-testid="logs_table">
           <thead>
             <tr>
-              <th>{{ t.when }}</th>
-              <th>{{ t.from }}</th>
-              <th>{{ t.wrongField }}</th>
+              <th>{{ t.logDate }}</th>
+              <th>{{ t.logAddress }}</th>
+              <th>{{ t.logField }}</th>
             </tr>
           </thead>
           <tbody>

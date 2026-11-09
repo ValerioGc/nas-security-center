@@ -23,6 +23,7 @@ export type ShellRequest =
   | 'access-settings'
   | 'save-access-settings'
   | 'discovery-settings'
+  | 'discovery-status'
   | 'save-discovery-settings'
   | 'access-rules'
   | 'add-access-rule'

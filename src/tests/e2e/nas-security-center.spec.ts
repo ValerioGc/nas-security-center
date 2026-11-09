@@ -125,6 +125,7 @@ async function openInShell(page: Page, firstDevice = false) {
     'save-access-settings': (payload) => (state.settings = payload),
     'discovery-settings': () => state.discovery,
     'save-discovery-settings': (payload) => (state.discovery = payload),
+    'discovery-status': () => ({ port: 39877, listening: true, applied: true }),
     'access-rules': () => state.rules,
     'add-access-rule': (payload) => {
       if (!/^[0-9.:/a-f]+$/.test(payload.value)) throw new Error('invalid IP address');
@@ -224,8 +225,14 @@ test('the access settings are read and saved through the launcher', async ({ pag
   ]);
 
   await expect(app.getByTestId('access_discovery_enabled')).not.toBeChecked();
+  await expect(app.getByTestId('access_discovery_state')).toHaveText('Disattivato');
+  await expect(app.getByTestId('access_discovery_port')).toHaveText('UDP 39877');
+  await expect(app.getByTestId('access_discovery_firewall')).toHaveText('Porta chiusa');
   await app.getByTestId('access_discovery_enabled_switch').click();
   await expect(app.getByTestId('access_discovery_enabled')).toBeChecked();
+  await expect(app.getByTestId('access_discovery_state')).toHaveText('Attivo');
+  await expect(app.getByTestId('access_discovery_responder')).toHaveText('In ascolto');
+  await expect(app.getByTestId('access_discovery_firewall')).toHaveText('Porta aperta');
   await expect
     .poll(() => asked(page))
     .toContainEqual(['save-discovery-settings', { enabled: true }]);
@@ -261,6 +268,11 @@ test('the security log lists the refused sign-ins and says when they are not rec
 
   await app.getByTestId('section_logs').click();
   await expect(app.getByRole('heading', { level: 1, name: 'Log di sicurezza' })).toBeVisible();
+  await expect(app.getByTestId('logs_table').getByRole('columnheader')).toHaveText([
+    'Data',
+    'Indirizzo',
+    'Campo',
+  ]);
   await expect(app.getByTestId('logs_table')).toContainText('192.168.1.66');
   await expect(app.getByTestId('logs_table')).toContainText('Password');
   await expect(app.getByTestId('logs_recording_off')).toBeVisible();

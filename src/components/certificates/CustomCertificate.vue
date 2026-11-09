@@ -66,7 +66,7 @@ async function upload() {
       </label>
     </div>
 
-    <div class="app_toolbar">
+    <div class="app_toolbar panel_actions">
       <button
         type="button"
         class="action_button primary"
@@ -130,6 +130,10 @@ h2 {
       outline-offset: 2px;
     }
   }
+}
+
+.panel_actions {
+  justify-content: flex-end;
 }
 
 </style>

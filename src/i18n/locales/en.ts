@@ -33,7 +33,26 @@ export const en: typeof it = {
   signInLockMinutes: 'Lock duration (minutes)',
   signInLockUnavailable: 'The gateway is unavailable. Lockout settings are not accessible.',
   discovery: 'Network discovery (NAS Finder)',
-  discoveryNote: 'Lets NAS Finder find the NAS on the local network.',
+  discoveryNote:
+    'Lets NAS Finder find the NAS on the local network. The NAS answers only devices of the same network and shares no account or sign-in data.',
+  discoveryStates: { active: 'Active', off: 'Off', problem: 'Needs attention' },
+  discoveryDetails: 'Discovery status',
+  discoveryPort: 'Port',
+  discoveryPortValue: 'UDP {port}',
+  discoveryScope: 'Reachable from',
+  discoveryScopeValue: 'Local network, IPv4',
+  discoveryResponder: 'Responder',
+  discoveryListening: 'Listening',
+  discoverySilent: 'Not listening',
+  discoveryFirewall: 'Firewall',
+  discoveryOpen: 'Port open',
+  discoveryClosed: 'Port closed',
+  discoveryNotApplied: 'Change not applied',
+  discoveryUnknown: 'Cannot be checked',
+  discoverySilentNote:
+    'The gateway is not listening on port {port}, so NAS Finder cannot find the NAS.',
+  discoveryNotAppliedNote:
+    'The last change of the firewall was not applied. Turn the option off and on again to retry.',
   allowedAddresses: 'Allowed addresses',
   allowedAddressesOn:
     'NAS access is restricted to the listed addresses and networks. Established connections remain active.',
@@ -131,9 +150,9 @@ export const en: typeof it = {
     'This browser does not use a certificate of the NAS. The certificate has to be installed before turning the option on.',
 
   logsIntro: 'Record of refused sign-in attempts, ordered from newest to oldest.',
-  when: 'When',
-  from: 'From',
-  wrongField: 'Wrong field',
+  logDate: 'Date',
+  logAddress: 'Address',
+  logField: 'Field',
   fields: { username: 'Username', password: 'Password' },
   noRefused: 'No refused sign-in.',
   notifyOff:
@@ -160,7 +179,7 @@ export const en: typeof it = {
   hostNotCovered:
     'The NAS was reached as “{host}”, an address not covered by the certificate. The browser flags it as not secure, even with the authority installed, until the address is added to the names of the certificate.',
   hostCovered:
-    '“{host}” is covered by the certificate. If the browser still flags it as not secure, the authority of the NAS is not among the trusted ones of this device.',
+    'The address “{host}” is included in the certificate in use. If the browser still shows a security warning, install the NAS authority among the trusted authorities of this device.',
   activeCertificate: 'Certificate in use',
   certificateSources: { nas: 'The NAS’s own', custom: 'Custom' },
   certificateSubject: 'Subject',

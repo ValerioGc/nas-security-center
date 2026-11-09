@@ -47,7 +47,7 @@ async function move(step: number) {
         <code>{{ authority.fingerprint }}</code>
       </dd>
     </dl>
-    <div class="app_toolbar">
+    <div class="app_toolbar panel_actions">
       <a
         class="action_button primary"
         :href="AUTHORITY_URL"
@@ -203,6 +203,10 @@ h2 {
   margin: 0;
   font-size: 13px;
   font-weight: 600;
+}
+
+.panel_actions {
+  justify-content: flex-end;
 }
 
 </style>

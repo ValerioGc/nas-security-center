@@ -68,6 +68,24 @@ describe('the access section', () => {
     wrapper.unmount();
   });
 
+  it('reads the discovery status again after turning it on', async () => {
+    answers['discovery-status'] = { port: 39877, listening: true, applied: true };
+    const wrapper = await opened();
+    expect(wrapper.get('[data-testid="access_discovery_firewall"]').text()).toBe('Porta chiusa');
+
+    await wrapper.get('[data-testid="access_discovery_enabled"]').setValue(true);
+    await flushPromises();
+    expect(vi.mocked(askNasShell).mock.calls.map(([type]) => type)).toEqual(
+      expect.arrayContaining(['save-discovery-settings', 'discovery-status']),
+    );
+    expect(
+      vi.mocked(askNasShell).mock.calls.filter(([type]) => type === 'discovery-status'),
+    ).toHaveLength(2);
+    expect(wrapper.get('[data-testid="access_discovery_firewall"]').text()).toBe('Porta aperta');
+    expect(wrapper.get('[data-testid="access_discovery_state"]').text()).toBe('Attivo');
+    wrapper.unmount();
+  });
+
   it('saves changes immediately without adding a save row', async () => {
     const wrapper = await opened();
     expect(wrapper.findAll('input[type="number"]')).toHaveLength(2);

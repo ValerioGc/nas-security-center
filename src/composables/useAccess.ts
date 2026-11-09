@@ -4,6 +4,7 @@ import type {
   AccessRule,
   AccessSettings,
   DiscoverySettings,
+  DiscoveryStatus,
   NewAccessRule,
   SignInPolicy,
 } from '@/types';
@@ -28,6 +29,7 @@ export function useAccess() {
   const settings = ref<AccessSettings | null>(null);
   const policy = ref<SignInPolicy | null>(null);
   const discovery = ref<DiscoverySettings | null>(null);
+  const discoveryStatus = ref<DiscoveryStatus | null>(null);
   const rules = ref<AccessRule[]>([]);
   const stored = ref('');
   const storedPolicy = ref('');
@@ -76,9 +78,21 @@ export function useAccess() {
     }
   }
 
+  async function loadDiscoveryStatus() {
+    try {
+      discoveryStatus.value = await askNasShell<DiscoveryStatus>('discovery-status');
+    } catch {
+      discoveryStatus.value = null;
+    }
+  }
+
   async function loadDiscovery() {
     try {
-      discovery.value = await askNasShell<DiscoverySettings>('discovery-settings');
+      const [settings] = await Promise.all([
+        askNasShell<DiscoverySettings>('discovery-settings'),
+        loadDiscoveryStatus(),
+      ]);
+      discovery.value = settings;
       discoveryError.value = '';
     } catch (cause) {
       discovery.value = null;
@@ -157,6 +171,7 @@ export function useAccess() {
       discovery.value = { enabled: !enabled };
       discoveryError.value = reason(cause);
     } finally {
+      await loadDiscoveryStatus();
       discoveryBusy.value = false;
     }
   }
@@ -185,6 +200,7 @@ export function useAccess() {
     settings,
     policy,
     discovery,
+    discoveryStatus,
     rules,
     loading,
     error,

@@ -50,7 +50,22 @@ describe('the access of the NAS', () => {
     expect(access.discovery.value).toEqual({ enabled: false });
     expect(access.changed.value).toBe(false);
     await access.save();
-    expect(askNasShell).toHaveBeenCalledTimes(4);
+    expect(askNasShell).toHaveBeenCalledTimes(5);
+  });
+
+  it('reads the discovery status beside the setting, and goes on without it', async () => {
+    const status = { port: 39877, listening: true, applied: null };
+    answering({ ...DEFAULTS, 'discovery-status': status });
+    const access = useAccess();
+    await access.load();
+    expect(access.discoveryStatus.value).toEqual(status);
+    expect(access.discoveryError.value).toBe('');
+
+    answering({ ...DEFAULTS, 'discovery-status': new Error('unknown request') });
+    await access.load();
+    expect(access.discoveryStatus.value).toBeNull();
+    expect(access.discovery.value).toEqual({ enabled: false });
+    expect(access.discoveryError.value).toBe('');
   });
 
   it('opens and closes the discovery on its own, and puts the switch back when refused', async () => {

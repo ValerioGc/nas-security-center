@@ -59,6 +59,13 @@ export interface DiscoverySettings {
   enabled: boolean;
 }
 
+/** What the launcher reads of the discovery on the machine, `null` where it cannot tell. */
+export interface DiscoveryStatus {
+  port: number;
+  listening: boolean | null;
+  applied: boolean | null;
+}
+
 export type AccessRuleKind = 'ip' | 'range';
 
 export interface AccessRule {
